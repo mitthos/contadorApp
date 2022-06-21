@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Personaje } from '../interfaces/dbz.interfaces';
+import { DbzService } from '../services/dbz.service';
 
 @Component({
   selector: 'app-agregar',
@@ -7,33 +8,34 @@ import { Personaje } from '../interfaces/dbz.interfaces';
 })
 export class AgregarComponent  {
 
-  @Input('heroesZ') personajes: Personaje[] = [];
+
 
   @Input() nuevo: Personaje  = {
     nombre: "",
     poder: 0
   }
 
+  constructor( private dbzService: DbzService) {
+
+  }
+
+  // @Output() onNuevoPersonaje: EventEmitter<Personaje> = new EventEmitter();
+
   agregar() {
-    console.log(this.personajes)
-    console.log(this.personajes.length)
-    for (let i = 0; i<this.personajes.length; i++){
-      console.log(this.personajes[i].nombre);
-    }
+
     if (this.nuevo.nombre.trim().length === 0){
       return;
     }
 
-    this.personajes.push(this.nuevo);
+    // this.onNuevoPersonaje.emit(this.nuevo);
+    this.dbzService.agregarPersonaje(this.nuevo);
+
     this.nuevo = {
       nombre:"", poder: 0
     };
     //console.log(this.nuevo)
 
-    console.log(this.personajes);
-    this.personajes.forEach(kaka => {
-      console.log(kaka.nombre);
-    }); 
+
   }
 
 }
